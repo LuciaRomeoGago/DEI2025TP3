@@ -78,6 +78,15 @@ body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.04);
 }
 
+.imagen-tiempo {
+  flex: 0 1 calc(25% - 0.75rem); 
+  max-width: 200px; 
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  object-fit: cover;
+}
+
 h2 {
   font-size: 2rem;
   font-weight: 700;

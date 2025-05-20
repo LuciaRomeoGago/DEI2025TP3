@@ -25,7 +25,8 @@ function headerNav(){
         {name: "Inicio", render: renderHome},
         {name: "Servicios", render: renderServicios},
         {name: "Nosotros", render: renderNosotros},
-        {name: "Contacto", render: renderContacto}
+        {name: "Contacto", render: renderContacto},
+        {name: "A través del tiempo", render: renderATravesDelTiempo}
     ];
 
     sections.forEach(section => {
@@ -195,4 +196,41 @@ function renderNosotros() {
       alert('¡Gracias por contactarte! Pronto responderemos tu mensaje.');
       form.reset();
     });
-  }
+}
+
+  function renderATravesDelTiempo(){
+    const main= mainContent();
+    main.innerHTML= "";
+
+    const h2= document.createElement('h2');
+    h2.textContent= "A través del tiempo";
+    main.appendChild(h2);
+
+    const ul= document.createElement('ul');
+    const p = document.createElement('p');
+    p.textContent = "El Tintero desde el 2000 acompañando y apoyando a diversos estudiantes en su trayecto academico, brindando servicios y un espacio en el que se sientan comodos.";
+    main.appendChild(p);
+
+   const imagenes = [
+    { src: "imagenes/2009.jpg", alt: "Imagen de profesor explicando" },
+    { src: "imagenes/509.jpg", alt: "Imagen de profesoras con alumno" }, 
+    { src: "imagenes/52009.jpg", alt: "Imagen de 2009" }, 
+    { src: "imagenes/2018.jpg", alt: "Imagen de frase de Eistein" },
+    { src: "imagenes/abur.jpg", alt: "Imagen de profesora explicando" },
+    { src: "imagenes/apoyo.jpg", alt: "Imagen del cartel del Tintero" }, 
+    { src: "imagenes/aTravesDelTiempo.jpg", alt: "Imagen de estudiantes siendo preparados" },
+    { src: "imagenes/profes.jpg", alt: "Imagen de profesores del Tintero" },
+    { src: "imagenes/profesores.jpg", alt: "Imagen de profesores del Tintero" },
+    { src: "imagenes/poema.jpg", alt: "Imagen de poema subido a facebook" },
+    { src: "imagenes/propuesyas2018.jpg", alt: "Imagen de viejas propuestas educativas" },
+     { src: "imagenes/explicacion.jpg", alt: "Imagen de profesor explicando" },
+   ]
+
+    imagenes.forEach(info => {
+    const img = document.createElement('img');
+    img.src = info.src;
+    img.alt = info.alt;
+    img.classList.add('imagen-tiempo');
+    main.appendChild(img);
+  });
+}
