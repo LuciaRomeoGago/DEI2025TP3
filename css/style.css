@@ -78,14 +78,33 @@ body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.04);
 }
 
-.imagen-tiempo {
-  flex: 0 1 calc(25% - 0.75rem); 
-  max-width: 200px; 
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-  object-fit: cover;
+.timeline {
+  position: relative;
+  margin: 2em 0;
+  padding-left: 40px;
 }
+.timeline-item {
+  margin-bottom: 2em;
+  position: relative;
+}
+.timeline-item.left .timeline-content {
+  margin-left: 0;
+}
+.timeline-item.right .timeline-content {
+  margin-left: 40px;
+}
+.timeline-year {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1.2em;
+}
+.imagen-tiempo {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
 
 h2 {
   font-size: 2rem;
@@ -195,4 +214,86 @@ button[type="submit"]:hover {
     gap: 1.2rem;
     padding: 1rem 0;
   }
+}
+/* Contenedor de la lista de profesores */
+.profesores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 1rem auto;
+  text-align: left;
+}
+
+/* Cada tarjeta de profesor */
+.profesor {
+  border: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #fafafa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.profesor:hover {
+  background-color: var(--color-link-hover);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: #fff;
+}
+
+/* Contenedor del formulario de reserva (turnero) */
+#turno-container {
+  max-width: 600px;
+  margin: 2rem auto 3rem auto;
+  padding: 1.5rem 2rem;
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+/* Estilos para el formulario dentro del turno-container */
+#turno-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#turno-container label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-main);
+}
+
+#turno-container input[type="text"],
+#turno-container input[type="date"],
+#turno-container input[type="time"] {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--font-main);
+  background: #fff;
+  color: var(--color-main);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#turno-container button[type="submit"] {
+  background: var(--color-main);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s;
+}
+
+#turno-container button[type="submit"]:hover {
+  background: var(--color-link-hover);
 }

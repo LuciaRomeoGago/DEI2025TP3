@@ -5,6 +5,7 @@ headerNav();
 mainContent();
 renderHome();
 
+
 function title(){
     const h1= document.createElement('h1');
     h1.textContent= "El Tintero - Instituto de Apoyo Escolar";
@@ -63,7 +64,7 @@ function renderHome(){
     main.innerHTML= "";
 
     const img= document.createElement('img');
-    img.src= "imagenes/tinteroReversionado.jpg";
+    img.src= "imagenes/imagenTintero.svg";
     img.alt= "Imagen del Tintero";
     img.classList.add('imagen-principal');
     main.appendChild(img);
@@ -76,100 +77,156 @@ function renderHome(){
     p.textContent= "Apoyo escolar para potenciar el aprendizaje de niños y adolescentes. Un espacio donde aprender es divertido."
     main.appendChild(p);
 }
+function renderServicios() {
+    const main = mainContent();
+    main.innerHTML = "";
 
-function renderServicios(){
-    const main= mainContent();
-    main.innerHTML= "";
-
-    const h2= document.createElement('h2');
-    h2.textContent= "Servicios";
+    // Título Servicios
+    const h2 = document.createElement('h2');
+    h2.textContent = "Servicios";
     main.appendChild(h2);
 
-    const ul= document.createElement('ul');
-    const servicios= [
+    // Lista de servicios
+    const ul = document.createElement('ul');
+    const servicios = [
         "Clases de apoyo escolar en todas las materias",
         "Talleres de técnicas de estudio",
-        "Preparacion para exámenes y trabajos prácticos"
+        "Preparación para exámenes y trabajos prácticos"
     ];
 
     servicios.forEach(servicio => {
-        const li= document.createElement('li');
-        li.textContent= servicio;
+        const li = document.createElement('li');
+        li.textContent = servicio;
         ul.appendChild(li);
     });
     main.appendChild(ul);
 }
 
+
 function renderNosotros() {
     const main = mainContent();
     main.innerHTML = "";
-  
+
     const h2 = document.createElement('h2');
     h2.textContent = "Sobre nosotros";
     main.appendChild(h2);
-  
+
     const p = document.createElement('p');
     p.textContent = "En El Tintero contamos con un equipo de docentes apasionados por la educación, comprometidos en acompañar a cada estudiante en su camino académico.";
     main.appendChild(p);
-  }
-  
+
+    // Sección Profesores
+    const h3Profesores = document.createElement('h3');
+    h3Profesores.textContent = "Nuestros Profesores";
+    h3Profesores.classList.add('profesores-title')
+    main.appendChild(h3Profesores);
+
+
+    // Contenedor para lista de profesores
+    const divProfesores = document.createElement('div');
+    divProfesores.classList.add('profesores-list');
+    main.appendChild(divProfesores);
+
+    // Contenedor para el formulario de reserva
+    const turnoContainer = document.createElement('div');
+    turnoContainer.id = 'turno-container';
+    main.appendChild(turnoContainer);
+
+    fetch('phpBack/getProfesores.php')
+        .then(res => {
+            if (!res.ok) throw new Error('Error al cargar profesores');
+            return res.json();
+        })
+        .then(profesores => {
+            profesores.forEach(profesor => {
+                profesor.materias.forEach(materia => {
+                    const profDiv = document.createElement('div');
+                    profDiv.classList.add('profesor');
+                    profDiv.innerHTML = `
+                        <strong>${profesor.nombre}</strong><br/>
+                        <em>${materia.nombre}</em>
+                    `;
+
+                    profDiv.addEventListener('click', () => {
+                        mostrarTurnero({
+                            profesorId: profesor.id,
+                            profesorNombre: profesor.nombre,
+                            materiaId: materia.id,
+                            materiaNombre: materia.nombre
+                        });
+                    });
+
+                    divProfesores.appendChild(profDiv);
+                });
+            });
+        })
+        .catch(error => {
+            divProfesores.textContent = 'No se pudieron cargar los profesores. Intenta más tarde.';
+            console.error(error);
+        });
+
+}
+
+
   function renderContacto() {
     const main = mainContent();
     main.innerHTML = "";
-  
+
     const h2 = document.createElement('h2');
     h2.textContent = "Contacto";
     main.appendChild(h2);
-  
+
     const form = document.createElement('form');
     form.id = "form-contacto";
-  
+    form.action =  "phpBack/backEmail.php";
+    form.method = "POST";
+
     // Nombre
     const labelNombre = document.createElement('label');
     labelNombre.setAttribute('for', 'nombre');
     labelNombre.textContent = "Nombre:";
     form.appendChild(labelNombre);
-  
+
     const inputNombre = document.createElement('input');
     inputNombre.type = "text";
     inputNombre.id = "nombre";
     inputNombre.name = "nombre";
     inputNombre.required = true;
     form.appendChild(inputNombre);
-  
+
     // Email
     const labelEmail = document.createElement('label');
     labelEmail.setAttribute('for', 'email');
     labelEmail.textContent = "Email:";
     form.appendChild(labelEmail);
-  
+
     const inputEmail = document.createElement('input');
     inputEmail.type = "email";
     inputEmail.id = "email";
     inputEmail.name = "email";
     inputEmail.required = true;
     form.appendChild(inputEmail);
-  
+
     // Mensaje
     const labelMensaje = document.createElement('label');
     labelMensaje.setAttribute('for', 'mensaje');
     labelMensaje.textContent = "Mensaje:";
     form.appendChild(labelMensaje);
-  
+
     const textareaMensaje = document.createElement('textarea');
     textareaMensaje.id = "mensaje";
     textareaMensaje.name = "mensaje";
     textareaMensaje.required = true;
     form.appendChild(textareaMensaje);
-  
+
     // Botón enviar
     const btnEnviar = document.createElement('button');
     btnEnviar.type = "submit";
     btnEnviar.textContent = "Enviar";
     form.appendChild(btnEnviar);
-  
+
     main.appendChild(form);
-  
+
     // Redes sociales
     const redesDiv = document.createElement('div');
     redesDiv.classList.add('redes-sociales');
@@ -198,39 +255,39 @@ function renderNosotros() {
     });
 }
 
-  function renderATravesDelTiempo(){
-    const main= mainContent();
-    main.innerHTML= "";
+  function renderATravesDelTiempo() {
+    const main = mainContent();
+    main.innerHTML = "";
 
-    const h2= document.createElement('h2');
-    h2.textContent= "A través del tiempo";
+    const h2 = document.createElement('h2');
+    h2.textContent = "A través del tiempo";
     main.appendChild(h2);
 
-    const ul= document.createElement('ul');
-    const p = document.createElement('p');
-    p.textContent = "El Tintero desde el 2000 acompañando y apoyando a diversos estudiantes en su trayecto academico, brindando servicios y un espacio en el que se sientan comodos.";
-    main.appendChild(p);
+    const timeline = document.createElement('div');
+    timeline.classList.add('timeline');
 
-   const imagenes = [
-    { src: "imagenes/2009.jpg", alt: "Imagen de profesor explicando" },
-    { src: "imagenes/509.jpg", alt: "Imagen de profesoras con alumno" }, 
-    { src: "imagenes/52009.jpg", alt: "Imagen de 2009" }, 
-    { src: "imagenes/2018.jpg", alt: "Imagen de frase de Eistein" },
-    { src: "imagenes/abur.jpg", alt: "Imagen de profesora explicando" },
-    { src: "imagenes/apoyo.jpg", alt: "Imagen del cartel del Tintero" }, 
-    { src: "imagenes/aTravesDelTiempo.jpg", alt: "Imagen de estudiantes siendo preparados" },
-    { src: "imagenes/profes.jpg", alt: "Imagen de profesores del Tintero" },
-    { src: "imagenes/profesores.jpg", alt: "Imagen de profesores del Tintero" },
-    { src: "imagenes/poema.jpg", alt: "Imagen de poema subido a facebook" },
-    { src: "imagenes/propuesyas2018.jpg", alt: "Imagen de viejas propuestas educativas" },
-     { src: "imagenes/explicacion.jpg", alt: "Imagen de profesor explicando" },
-   ]
+    const eventos = [
+        { year: "2009", src: "imagenes/2009.jpg", desc: "Primeras clases y talleres." },
+        { year: "2012", src: "imagenes/509.jpg", desc: "Nuevos profesores se suman al equipo." },
+        { year: "2015", src: "imagenes/2018.jpg", desc: "Renovación de espacios y métodos." },
+        { year: "2018", src: "imagenes/profes.jpg", desc: "Crecimiento del equipo docente." },
+        { year: "2022", src: "imagenes/aTravesDelTiempo.jpg", desc: "Celebramos más de 20 años." }
+    ];
 
-    imagenes.forEach(info => {
-    const img = document.createElement('img');
-    img.src = info.src;
-    img.alt = info.alt;
-    img.classList.add('imagen-tiempo');
-    main.appendChild(img);
-  });
+    eventos.forEach((evento, idx) => {
+        const item = document.createElement('div');
+        item.classList.add('timeline-item', idx % 2 === 0 ? 'left' : 'right');
+
+        const content = `
+            <div class="timeline-content">
+                <span class="timeline-year">${evento.year}</span>
+                <img src="${evento.src}" alt="${evento.desc}" class="imagen-tiempo"/>
+                <p>${evento.desc}</p>
+            </div>
+        `;
+        item.innerHTML = content;
+        timeline.appendChild(item);
+    });
+
+    main.appendChild(timeline);
 }
